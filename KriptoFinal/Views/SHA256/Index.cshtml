@@ -1,0 +1,182 @@
+﻿@{
+    ViewData["Title"] = "SHA-256 Hash Hesapla";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <title>SHA-256 Hash Hesaplama</title>
+    <style>
+        body {
+            background-color: #000010;
+            color: #00aaff;
+            font-family: "Courier New", Courier, monospace;
+            padding: 40px;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            text-shadow: 0 0 10px #00aaff;
+        }
+
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        textarea {
+            width: 100%;
+            height: 120px;
+            background-color: #001022;
+            border: 1px solid #00aaff;
+            color: #00aaff;
+            padding: 10px;
+            font-family: monospace;
+            font-size: 1em;
+            border-radius: 5px;
+            resize: vertical;
+        }
+
+        input[type="file"] {
+            color: #00aaff;
+        }
+
+        button {
+            background-color: #00aaff;
+            border: none;
+            color: #000010;
+            padding: 12px 20px;
+            font-size: 1.2em;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+            button:hover {
+                background-color: #0088cc;
+            }
+
+        .result {
+            max-width: 600px;
+            margin: 30px auto 0 auto;
+            background-color: #001022;
+            border: 1px solid #00aaff;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 1.1em;
+            word-break: break-all;
+        }
+
+        .error {
+            max-width: 600px;
+            margin: 10px auto;
+            color: #ff5555;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .input-selection {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-bottom: 15px;
+        }
+
+            .input-selection label {
+                font-weight: normal;
+                font-size: 1.1em;
+                cursor: pointer;
+            }
+    </style>
+
+    <script>
+        function toggleInputFields() {
+            const textRadio = document.getElementById('inputTypeText');
+            const fileRadio = document.getElementById('inputTypeFile');
+            const textareaContainer = document.getElementById('textareaContainer');
+            const fileInputContainer = document.getElementById('fileInputContainer');
+
+            if (textRadio.checked) {
+                textareaContainer.style.display = "block";
+                fileInputContainer.style.display = "none";
+                document.getElementById('inputFile').value = "";
+            } else if (fileRadio.checked) {
+                textareaContainer.style.display = "none";
+                fileInputContainer.style.display = "block";
+                document.getElementById('inputText').value = "";
+            }
+        }
+
+        window.onload = function () {
+            toggleInputFields();
+            document.getElementById('inputTypeText').addEventListener('change', toggleInputFields);
+            document.getElementById('inputTypeFile').addEventListener('change', toggleInputFields);
+        }
+    </script>
+</head>
+<body>
+    <h1>SHA-256 Hash Hesaplama</h1>
+
+    <form asp-action="Index" method="post" enctype="multipart/form-data">
+
+        <div class="input-selection">
+            <label>
+                <input type="radio" id="inputTypeText" name="inputType" value="text" checked />
+                Metin
+            </label>
+
+            <label>
+                <input type="radio" id="inputTypeFile" name="inputType" value="file" />
+                Dosya
+            </label>
+        </div>
+
+        <div id="textareaContainer">
+            <label for="inputText">Metin Girin:</label>
+            <textarea id="inputText" name="inputText" placeholder="Hash hesaplamak istediğiniz metni buraya yazın...">@ViewBag.InputText</textarea>
+        </div>
+
+        <div id="fileInputContainer" style="display:none;">
+            <label for="inputFile">Dosya Seçin:</label>
+            <input type="file" id="inputFile" name="inputFile" />
+        </div>
+
+        <button type="submit">Hash Hesapla</button>
+
+        <!-- Geri Dön Butonu -->
+        <button type="button" onclick="history.back()" style="background-color:#005577; margin-top:10px;">Geri Dön</button>
+    </form>
+
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="error">
+            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+            {
+                <div>@error.ErrorMessage</div>
+            }
+        </div>
+    }
+
+    @if (ViewBag.HashResult != null)
+    {
+        <div class="result">
+            <strong>SHA-256 Hash Sonucu:</strong><br />
+            @ViewBag.HashResult
+        </div>
+    }
+</body>
+</html>
