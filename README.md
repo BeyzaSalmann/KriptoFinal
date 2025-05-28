@@ -4,7 +4,7 @@
 Yukarıdaki görselde, "Güvenli Şifreleme Sistemleri" başlığı altında; RSA anahtar üretme, RSA ile şifreleme, RSA ile şifre çözme ve SHA-256 hash oluşturma işlemlerine yönlendiren butonlar ve geliştiren kişi bilgisi yer almaktadır.
 ## RSA Anahtar Üretme Sayfası
 
-![image](https://github.com/user-attachments/assets/bdf1fadc-ebd0-4971-b434-ec204fa4bca6)
+![image](https://github.com/user-attachments/assets/5b1ee9b0-8063-4e7d-9651-821c22284beb)
 Yukarıdaki görselde, RSA algoritması kullanılarak oluşturulan bir "Public Key" (Açık Anahtar) ve "Private Key" (Özel Anahtar) metin kutuları ile kullanıcıya bu anahtarları kopyalama imkânı veren bir arayüz gösterilmektedir.
 ## RSA Şifreleme Sayfası
 
